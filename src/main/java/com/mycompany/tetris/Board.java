@@ -30,10 +30,12 @@ public class Board extends javax.swing.JPanel {
                     }
                     break;
                 case KeyEvent.VK_UP:
-// whatever
+                    rotate();
                     break;
                 case KeyEvent.VK_DOWN:
-// whatever
+                    if (canMove(currentRow + 1, currentCol, currentShape)) {
+                        currentRow++;
+                    }
                     break;
                 default:
                     break;
@@ -86,6 +88,17 @@ public class Board extends javax.swing.JPanel {
         });
         initGame();
     }
+    
+    private void rotate() {
+        if (currentShape.getShape() == Tetrominoes.SquareShape) {
+            return;
+        }
+        Shape shape = currentShape.copy();
+        shape.rotateLeft();
+        if (canMove(currentRow, currentCol, shape)) {
+            currentShape = shape;
+        }        
+    }
 
     private boolean canMove(int row, int col, Shape shape) {
         // check bottom
@@ -129,6 +142,7 @@ public class Board extends javax.swing.JPanel {
             // copy shape to squares and generate new currentShape
             System.out.println("Hit");
             copyCurrentShapeToSquares(currentRow, currentCol, currentShape);
+            checkLine();
             System.out.println("copy");
             generateNewCurrentShape();
             System.out.println("generate");
