@@ -155,17 +155,13 @@ public class Board extends javax.swing.JPanel {
     }
 
     private void doGameLoop() { // VERY IMPORTAQNT METHOD
-        System.out.println("doGameLoop currentRow " + currentRow);
         if (canMove(currentRow + 1, currentCol, currentShape)) {
             currentRow++;
         } else { // Hit bottom or squares
             // copy shape to squares and generate new currentShape
-            System.out.println("Hit");
             copyCurrentShapeToSquares(currentRow, currentCol, currentShape);
             checkLine();
-            System.out.println("copy");
             generateNewCurrentShape();
-            System.out.println("generate");
         }
 
         repaint();
