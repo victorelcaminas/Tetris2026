@@ -12,7 +12,7 @@ import javax.swing.Timer;
  *
  * @author vm.alonsobarberan
  */
-public class Board extends javax.swing.JPanel {
+public class Board extends javax.swing.JPanel {    
 
     class MyKeyAdapter extends KeyAdapter {
         
@@ -54,6 +54,8 @@ public class Board extends javax.swing.JPanel {
     private Tetrominoes[][] squares;
     private Timer timer;
     private MyKeyAdapter keyAdapter;
+    
+    private Incrementer incrementer;
 
     /**
      * Creates new form Board
@@ -61,6 +63,10 @@ public class Board extends javax.swing.JPanel {
     public Board() {
         initComponents();
         initBoard();
+    }
+    
+    public void setIncrementer(Incrementer incrementer) {
+        this.incrementer = incrementer;
     }
 
     public void initGame() {
@@ -156,6 +162,9 @@ public class Board extends javax.swing.JPanel {
             if (isLineCompleted(row)) {
                 deleteLine(row);
                 fillRow0();
+                incrementer.incrementScore(1);
+                // increment score
+                
             }
         }
     }
