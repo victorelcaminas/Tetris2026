@@ -12,28 +12,30 @@ import javax.swing.Timer;
  *
  * @author vm.alonsobarberan
  */
-public class Board extends javax.swing.JPanel {    
+public class Board extends javax.swing.JPanel {
 
     class MyKeyAdapter extends KeyAdapter {
-        
+
         @Override
         public void keyPressed(KeyEvent e) {
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_LEFT:
-                    if (canMove(currentRow, currentCol - 1, currentShape)) {
+                    if (timer.isRunning() && canMove(currentRow, currentCol - 1, currentShape)) {
                         currentCol--;
                     }
                     break;
                 case KeyEvent.VK_RIGHT:
-                    if (canMove(currentRow, currentCol + 1, currentShape)) {
+                    if (timer.isRunning() && canMove(currentRow, currentCol + 1, currentShape)) {
                         currentCol++;
                     }
                     break;
                 case KeyEvent.VK_UP:
-                    rotate();
+                    if (timer.isRunning()) {
+                        rotate();
+                    }
                     break;
                 case KeyEvent.VK_DOWN:
-                    if (canMove(currentRow + 1, currentCol, currentShape)) {
+                    if (timer.isRunning() && canMove(currentRow + 1, currentCol, currentShape)) {
                         currentRow++;
                     }
                     break;
@@ -54,7 +56,7 @@ public class Board extends javax.swing.JPanel {
     private Tetrominoes[][] squares;
     private Timer timer;
     private MyKeyAdapter keyAdapter;
-    
+
     private Incrementer incrementer;
 
     /**
@@ -64,16 +66,24 @@ public class Board extends javax.swing.JPanel {
         initComponents();
         initBoard();
     }
+
+    public void pause() {
+        if (timer.isRunning()) {
+            timer.stop();
+        } else {
+            timer.start();
+        }
+    }
     
+
     public void setIncrementer(Incrementer incrementer) {
         this.incrementer = incrementer;
     }
 
     public void initGame() {
-        timer.start();
-    }
-
-    private void initBoard() {
+        if (incrementer != null) {
+            incrementer.reset();
+        }
         generateNewCurrentShape();
         squares = new Tetrominoes[NUM_ROWS][NUM_COLS];
         for (int row = 0; row < NUM_ROWS; row++) {
@@ -81,6 +91,10 @@ public class Board extends javax.swing.JPanel {
                 squares[row][col] = Tetrominoes.NoShape;
             }
         }
+        timer.start();
+    }
+
+    private void initBoard() {
         
         keyAdapter = new MyKeyAdapter();
         addKeyListener(keyAdapter);
@@ -94,7 +108,7 @@ public class Board extends javax.swing.JPanel {
         });
         initGame();
     }
-    
+
     private void rotate() {
         if (currentShape.getShape() == Tetrominoes.SquareShape) {
             return;
@@ -103,7 +117,7 @@ public class Board extends javax.swing.JPanel {
         shape.rotateLeft();
         if (canMove(currentRow, currentCol, shape)) {
             currentShape = shape;
-        }        
+        }
     }
 
     private boolean canMove(int row, int col, Shape shape) {
@@ -119,14 +133,14 @@ public class Board extends javax.swing.JPanel {
         if (col + shape.getMaxX() >= NUM_COLS) {
             return false;
         }
-        
+
         if (hitsSquares(row, col, shape)) {
             return false;
         }
 
         return true;
     }
-    
+
     public boolean hitsSquares(int row, int col, Shape shape) {
         for (int point = 0; point < 4; point++) {
             int calcRow = shape.getY(point) + row;
@@ -135,7 +149,7 @@ public class Board extends javax.swing.JPanel {
                 if (squares[calcRow][calcCol] != Tetrominoes.NoShape) {
                     return true;
                 }
-            }            
+            }
         }
         return false;
     }
@@ -156,7 +170,7 @@ public class Board extends javax.swing.JPanel {
 
         repaint();
     }
-    
+
     private void checkLine() {
         for (int row = 0; row < NUM_ROWS; row++) {
             if (isLineCompleted(row)) {
@@ -164,25 +178,25 @@ public class Board extends javax.swing.JPanel {
                 fillRow0();
                 incrementer.incrementScore(1);
                 // increment score
-                
+
             }
         }
     }
-    
+
     private void fillRow0() {
         for (int col = 0; col < NUM_COLS; col++) {
             squares[0][col] = Tetrominoes.NoShape;
         }
     }
-    
+
     private void deleteLine(int row) {
         for (int r = row - 1; r >= 0; r--) {
             for (int col = 0; col < NUM_COLS; col++) {
-                squares[r + 1][col] = squares[r][col]; 
+                squares[r + 1][col] = squares[r][col];
             }
         }
     }
-    
+
     private boolean isLineCompleted(int row) {
         for (int col = 0; col < NUM_COLS; col++) {
             if (squares[row][col] == Tetrominoes.NoShape) {
@@ -191,19 +205,19 @@ public class Board extends javax.swing.JPanel {
         }
         return true;
     }
-    
+
     private void generateNewCurrentShape() {
         currentRow = 0;
         currentCol = NUM_COLS / 2;
         currentShape = new Shape();
-        
+
     }
-    
+
     private void copyCurrentShapeToSquares(int row, int col, Shape shape) {
         for (int i = 0; i < 4; i++) {
             int calcRow = row + shape.getY(i);
             int calcCol = col + shape.getX(i);
-            if (calcRow >=0 && calcRow < NUM_ROWS && calcCol >= 0 && calcCol < NUM_COLS) {
+            if (calcRow >= 0 && calcRow < NUM_ROWS && calcCol >= 0 && calcCol < NUM_COLS) {
                 squares[calcRow][calcCol] = shape.getShape();
             }
         }
@@ -224,7 +238,7 @@ public class Board extends javax.swing.JPanel {
         paintCurrentShape(g);
         Toolkit.getDefaultToolkit().sync();
     }
-    
+
     private void paintBackground(Graphics g) {
         for (int row = 0; row < NUM_ROWS; row++) {
             for (int col = 0; col < NUM_COLS; col++) {

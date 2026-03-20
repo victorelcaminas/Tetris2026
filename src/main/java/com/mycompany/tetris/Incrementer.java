@@ -11,5 +11,6 @@ package com.mycompany.tetris;
 public interface Incrementer {
     
     public void incrementScore(int increment);
+    public void reset();
     
 }
