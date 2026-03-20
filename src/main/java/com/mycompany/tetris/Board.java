@@ -151,6 +151,38 @@ public class Board extends javax.swing.JPanel {
         repaint();
     }
     
+    private void checkLine() {
+        for (int row = 0; row < NUM_ROWS; row++) {
+            if (isLineCompleted(row)) {
+                deleteLine(row);
+                fillRow0();
+            }
+        }
+    }
+    
+    private void fillRow0() {
+        for (int col = 0; col < NUM_COLS; col++) {
+            squares[0][col] = Tetrominoes.NoShape;
+        }
+    }
+    
+    private void deleteLine(int row) {
+        for (int r = row - 1; r >= 0; r--) {
+            for (int col = 0; col < NUM_COLS; col++) {
+                squares[r + 1][col] = squares[r][col]; 
+            }
+        }
+    }
+    
+    private boolean isLineCompleted(int row) {
+        for (int col = 0; col < NUM_COLS; col++) {
+            if (squares[row][col] == Tetrominoes.NoShape) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
     private void generateNewCurrentShape() {
         currentRow = 0;
         currentCol = NUM_COLS / 2;
