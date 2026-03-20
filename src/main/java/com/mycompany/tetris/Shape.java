@@ -17,6 +17,27 @@ public class Shape {
         coords = new int[4][2];
         setRandomShape();
     }
+    
+    public Shape copy() {
+        Shape shape = new Shape();
+        shape.setShape(pieceShape);
+        for (int i = 0; i < coords.length; i++) {
+            int x = getX(i);
+            int y = getY(i);
+            shape.setX(i, x);
+            shape.setY(i, y);
+        }
+        return shape;
+    }
+    
+    public void rotateLeft() {
+        for (int i = 0; i < coords.length; i++) {
+            int x = getX(i);
+            int y = getY(i);
+            setX(i, y);
+            setY(i, -x);
+        }
+    }
 
     private static final int[][][] coordsTable = new int[][][]{
         {{0, 0}, {0, 0}, {0, 0}, {0, 0}},
