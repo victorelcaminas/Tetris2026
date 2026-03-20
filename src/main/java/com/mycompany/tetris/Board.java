@@ -160,23 +160,27 @@ public class Board extends javax.swing.JPanel {
         } else { // Hit bottom or squares
             // copy shape to squares and generate new currentShape
             copyCurrentShapeToSquares(currentRow, currentCol, currentShape);
-            checkLine();
+            boolean deletedLine = checkLine();
+            if (currentRow == 0 && !deletedLine) {  
+                processGameOver();
+            }            
             generateNewCurrentShape();
         }
 
         repaint();
     }
 
-    private void checkLine() {
+    private boolean checkLine() {
+        boolean deletedLine = false;
         for (int row = 0; row < NUM_ROWS; row++) {
             if (isLineCompleted(row)) {
                 deleteLine(row);
+                deletedLine = true;
                 fillRow0();
                 incrementer.incrementScore(1);
-                // increment score
-
             }
         }
+        return deletedLine;
     }
 
     private void fillRow0() {
