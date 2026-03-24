@@ -12,12 +12,17 @@ public class Tetris extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Tetris.class.getName());
 
+    GameOverDialog gameOverDialog;
     /**
      * Creates new form Tetris
      */
     public Tetris() {
         initComponents();
-        board1.setIncrementer(scoreboard1);
+        setLocationRelativeTo(null);
+        board1.setIncrementer(scoreboard1);   
+        gameOverDialog = new GameOverDialog(this, true);        
+        board1.setGameOverInterface(gameOverDialog);
+        gameOverDialog.setInitGamer(board1);
     }
 
     /**

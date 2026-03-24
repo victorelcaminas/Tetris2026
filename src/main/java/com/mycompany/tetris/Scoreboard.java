@@ -4,6 +4,8 @@
  */
 package com.mycompany.tetris;
 
+import com.mycompany.tetris.interfaces.Incrementer;
+
 /**
  *
  * @author vm.alonsobarberan

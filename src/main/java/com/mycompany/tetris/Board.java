@@ -4,6 +4,9 @@
  */
 package com.mycompany.tetris;
 
+import com.mycompany.tetris.interfaces.GameOverInterface;
+import com.mycompany.tetris.interfaces.Incrementer;
+import com.mycompany.tetris.interfaces.InitGamer;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.Timer;
@@ -12,7 +15,7 @@ import javax.swing.Timer;
  *
  * @author vm.alonsobarberan
  */
-public class Board extends javax.swing.JPanel {
+public class Board extends javax.swing.JPanel implements InitGamer {
 
     class MyKeyAdapter extends KeyAdapter {
 
@@ -58,6 +61,7 @@ public class Board extends javax.swing.JPanel {
     private MyKeyAdapter keyAdapter;
 
     private Incrementer incrementer;
+    private GameOverInterface gameOverInterface;
 
     /**
      * Creates new form Board
@@ -78,6 +82,10 @@ public class Board extends javax.swing.JPanel {
 
     public void setIncrementer(Incrementer incrementer) {
         this.incrementer = incrementer;
+    }
+    
+    public void setGameOverInterface(GameOverInterface gmInterface) {
+        this.gameOverInterface = gmInterface;        
     }
 
     public void initGame() {
@@ -168,6 +176,11 @@ public class Board extends javax.swing.JPanel {
         }
 
         repaint();
+    }
+    
+    private void processGameOver() {
+        timer.stop();
+        gameOverInterface.setVisible(this);
     }
 
     private boolean checkLine() {
