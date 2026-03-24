@@ -34,6 +34,9 @@ public class Tetris extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jDialogAbout = new javax.swing.JDialog();
+        jLabel1 = new javax.swing.JLabel();
+        jButtonOkAbout = new javax.swing.JButton();
         scoreboard1 = new com.mycompany.tetris.Scoreboard();
         board1 = new com.mycompany.tetris.Board();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -41,6 +44,38 @@ public class Tetris extends javax.swing.JFrame {
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+        jMenuItemAbout = new javax.swing.JMenuItem();
+
+        jDialogAbout.setSize(new java.awt.Dimension(384, 245));
+
+        jLabel1.setText("jLabel1");
+
+        jButtonOkAbout.setText("Ok");
+        jButtonOkAbout.addActionListener(this::jButtonOkAboutActionPerformed);
+
+        javax.swing.GroupLayout jDialogAboutLayout = new javax.swing.GroupLayout(jDialogAbout.getContentPane());
+        jDialogAbout.getContentPane().setLayout(jDialogAboutLayout);
+        jDialogAboutLayout.setHorizontalGroup(
+            jDialogAboutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDialogAboutLayout.createSequentialGroup()
+                .addGroup(jDialogAboutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jDialogAboutLayout.createSequentialGroup()
+                        .addGap(150, 150, 150)
+                        .addComponent(jButtonOkAbout))
+                    .addGroup(jDialogAboutLayout.createSequentialGroup()
+                        .addGap(164, 164, 164)
+                        .addComponent(jLabel1)))
+                .addContainerGap(162, Short.MAX_VALUE))
+        );
+        jDialogAboutLayout.setVerticalGroup(
+            jDialogAboutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDialogAboutLayout.createSequentialGroup()
+                .addGap(39, 39, 39)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 104, Short.MAX_VALUE)
+                .addComponent(jButtonOkAbout)
+                .addGap(60, 60, 60))
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().add(scoreboard1, java.awt.BorderLayout.PAGE_END);
@@ -81,7 +116,13 @@ public class Tetris extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setText("About");
+        jMenu2.setText("Help");
+        jMenu2.addActionListener(this::jMenu2ActionPerformed);
+
+        jMenuItemAbout.setText("About ...");
+        jMenuItemAbout.addActionListener(this::jMenuItemAboutActionPerformed);
+        jMenu2.add(jMenuItemAbout);
+
         jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
@@ -113,6 +154,21 @@ public class Tetris extends javax.swing.JFrame {
         board1.initGame();
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
+    private void jButtonOkAboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonOkAboutActionPerformed
+        // TODO add your handling code here:        
+        jDialogAbout.setVisible(false);
+    }//GEN-LAST:event_jButtonOkAboutActionPerformed
+
+    private void jMenu2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu2ActionPerformed
+
+    }//GEN-LAST:event_jMenu2ActionPerformed
+
+    private void jMenuItemAboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemAboutActionPerformed
+        jDialogAbout.setLocationRelativeTo(this);
+        jDialogAbout.setModal(true);
+        jDialogAbout.setVisible(true);
+    }//GEN-LAST:event_jMenuItemAboutActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -140,11 +196,15 @@ public class Tetris extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.mycompany.tetris.Board board1;
+    private javax.swing.JButton jButtonOkAbout;
+    private javax.swing.JDialog jDialogAbout;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItemAbout;
     private com.mycompany.tetris.Scoreboard scoreboard1;
     // End of variables declaration//GEN-END:variables
 }
